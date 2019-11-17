@@ -7,7 +7,7 @@
 #    Nov 17, 2019 03:44:03 PM IST  platform: Windows NT
 
 import sys
-
+import dip
 try:
     import Tkinter as tk
 except ImportError:

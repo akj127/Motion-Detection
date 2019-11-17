@@ -3,7 +3,7 @@ import numpy as np
 import pyautogui
 from matplotlib import pyplot as plt
 from sklearn.cluster import KMeans
-
+from copy import  copy
 
 hand_hist = None
 def rgb_to_hsv(r, g, b):
@@ -74,7 +74,8 @@ var = 0
 while capture.isOpened():
 	var += 1
 	pressed_key = cv2.waitKey(1)
-	_, frame = capture.read()
+	_, frame1 = capture.read()
+	frame=copy(frame1)
 	blockFace(frame)
 	hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
@@ -92,9 +93,9 @@ while capture.isOpened():
 		a = int(center["m10"] / center["m00"])
 		b = int(center["m01"] / center["m00"])
 		print(a,b)
-		cv2.circle(frame, (a, b), 10, (255, 0, 0), -1)
+		cv2.circle(frame1, (a, b), 10, (255, 0, 0), -1)
 
-		cv2.imshow("Frame",frame)
+		cv2.imshow("Frame",frame1)
 		if np.sum(mask) > 3*10**6 and var%10 == 0:
 			pyautogui.hotkey('space')
 			print('space')

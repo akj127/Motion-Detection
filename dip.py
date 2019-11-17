@@ -83,24 +83,16 @@ while capture.isOpened():
 		result = cv2.bitwise_and(frame,frame, mask= mask)
 	try:
 		kernel = np.ones((8, 8), np.uint8)
-		# mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
-		# mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
 		mask = cv2.dilate(mask, kernel, iterations=8)
 		mask = cv2.erode(mask, kernel, iterations=4)
 		cv2.imshow("Mask", mask)
-
 		contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-
-		# cv2.drawContours(frame, contours, -1, (0, 255, 0), 3)
-		# cnt = sorted(contours, key=lambda x: cv2.contourArea(x))
 		cnt=max(contours, key=lambda x: cv2.contourArea(x))
 		center = cv2.moments(cnt)
 		a = int(center["m10"] / center["m00"])
 		b = int(center["m01"] / center["m00"])
 		print(a,b)
 		cv2.circle(frame, (a, b), 10, (255, 0, 0), -1)
-
-		# cv2.drawContours(frame, [cnt], -1, (0, 255, 0), 3)
 
 		cv2.imshow("Frame",frame)
 		if np.sum(mask) > 3*10**6 and var%10 == 0:
